@@ -509,7 +509,7 @@ platforms = {
       'F6S': {
           'url': 'https://www.f6s.com/',
           'cat': 'startup',
-          'doubt': False,
+          'doubt': True,
           'up': False
       },
 
