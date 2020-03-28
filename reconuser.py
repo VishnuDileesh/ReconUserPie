@@ -87,7 +87,7 @@ class reconUser():
 
                         site = 'https://' + username + v['url']
 
-                        enumsearch(site, k, v, username)
+                        enumsearch(site, k, v, username, flag)
 
                     else:
 
@@ -95,7 +95,7 @@ class reconUser():
 
                         site = v['url'] + username
 
-                        enumsearch(site, k, v, username)
+                        enumsearch(site, k, v, username, flag)
 
             elif flag == 'ss':
 
@@ -111,7 +111,7 @@ class reconUser():
 
                         site = 'https://' + username + v['url']
 
-                        enumsearch(site, k, v, username)
+                        enumsearch(site, k, v, username, flag)
 
                     else:
 
@@ -119,7 +119,7 @@ class reconUser():
 
                         site = v['url'] + username
 
-                        enumsearch(site, k, v, username)
+                        enumsearch(site, k, v, username, flag)
 
 
             else:
@@ -130,7 +130,7 @@ class reconUser():
 
                     site = 'https://' + username + v['url']
 
-                    enumsearch(site, k, v, username)
+                    enumsearch(site, k, v, username, flag)
 
                 else:
 
@@ -138,11 +138,11 @@ class reconUser():
 
                     site = v['url'] + username
 
-                    enumsearch(site, k, v, username)
+                    enumsearch(site, k, v, username, flag)
 
 
 
-def enumsearch(site, k, v, username):
+def enumsearch(site, k, v, username, flag):
     try:
 
         r = requests.get(site)
