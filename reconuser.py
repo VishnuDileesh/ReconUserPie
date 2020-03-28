@@ -4,6 +4,7 @@ import click
 import requests
 from platforms_list import platforms
 
+
 f = Figlet(
         font='slant',
         width=80
@@ -43,7 +44,7 @@ def main(flag):
 
     """
 
-    click.echo("Python OSINT Recon Script/Tool For Enumerating Online Presence Of A Person From Username \n")
+    click.echo("Python OSINT Recon Script/Tool For Enumerating Online Presence Of A Person From Username")
     click.echo("Enumerates 73 Online Platforms \n\n")
 
 
@@ -167,7 +168,10 @@ def output_write(username):
 
             f.write("%s\n" %item)
 
-    click.echo(f"Success Result Report Written To File {filename}")
+    click.echo(click.style((f"Success Result Report Written To File {filename}"), bold=True, blink=True, fg='white', bg='green'))
+
+
+    
 
     
 
