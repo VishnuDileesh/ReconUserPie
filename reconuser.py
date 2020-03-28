@@ -22,56 +22,123 @@ print('Message : Do No Evil \n \n')
 
 #@click.option('--username', prompt=True)
 
-def main():
-    """
+@click.option('--flag', '-f', help='Set flags to choose the search results')
 
-    python3 reconuser.py
+def main(flag):
+    """
+    Tool Outputs 3 Types Of Results
+
+    1) Success : Username is successfully found on the platform
+
+    2) Failure : Username is not found on the platform
+
+    3) Doubtful : Tool is not confident about the result, please do manual check
+
+
+
+    python3 reconuser.py (Does all platforms search & outputs all the above result types)
+
+    python3 -f ms reconuser.py (Does platforms searches excluding Doubtful cases)
+
+    python3 -f ss reconuser.py (Does platforms searches excluding Doubtful cases & outputs only Success results)
+
 
     """
 
     click.echo("Python OSINT Recon Script/Tool For Enumerating Online Presence Of A Person From Username \n")
     click.echo("Enumerates 73 Online Platforms \n\n")
 
+
+    if flag == 'ms':
+
+        click.echo("ReconUserPie running with flag min-search (excludes doubtful platforms) \n\n")
+
+    elif flag == 'ss':
+
+        click.echo("ReconUserPie running with flag success-search (excludes doubtful platforms & shows only Success results \n\n")
+
     username = click.prompt("Username")
+
 
     click.echo("\n\n")
 
-    rU = reconUser(username)
+    rU = reconUser(username, flag)
 
-
-
-
-
-
-#@main.command()
-#@click.argument('username')
-#def main(username):
-    
-#    rU = reconUser(username)
 
 
 class reconUser():
-    def __init__(self, username):
+    def __init__(self, username, flag):
 
 
 
         for k, v in platforms.items():
 
-            if v['up']:
+            if flag == 'ms':
 
-                click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+                if v['doubt'] == True:
 
-                site = 'https://' + username + v['url']
+                    continue
 
-                enumsearch(site, k, v, username)
+                else:
+
+                    if v['up']:
+
+                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+
+                        site = 'https://' + username + v['url']
+
+                        enumsearch(site, k, v, username)
+
+                    else:
+
+                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+
+                        site = v['url'] + username
+
+                        enumsearch(site, k, v, username)
+
+            elif flag == 'ss':
+
+                if v['doubt'] == True:
+
+                    continue
+
+                else:
+
+                    if v['up']:
+
+                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+
+                        site = 'https://' + username + v['url']
+
+                        enumsearch(site, k, v, username)
+
+                    else:
+
+                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+
+                        site = v['url'] + username
+
+                        enumsearch(site, k, v, username)
+
 
             else:
 
-                click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+                if v['up']:
 
-                site = v['url'] + username
+                    click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
 
-                enumsearch(site, k, v, username)
+                    site = 'https://' + username + v['url']
+
+                    enumsearch(site, k, v, username)
+
+                else:
+
+                    click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
+
+                    site = v['url'] + username
+
+                    enumsearch(site, k, v, username)
 
 
 
