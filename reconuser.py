@@ -3,38 +3,51 @@ import click
 import requests
 from platforms_list import platforms
 
-f = Figlet(font='slant')
-
-print(f.renderText('ReconUserPie'))
-
+f = Figlet(
+        font='slant',
+        width=80
+        )
 
 __author__ = "vishnu_dileesh"
 
+click.echo(click.style(f.renderText('ReconUserPie'), bold=True, fg='cyan'))
+print('Author : ' + __author__)
+print('Message : Do No Evil \n \n')
 
-# https://www.platforms.com/username
 
 
 
-@click.group()
+
+@click.command()
+
+#@click.option('--username', prompt=True)
+
 def main():
     """
 
-    python3 reconuser.py search vishnu_dileesh
-    
+    python3 reconuser.py
 
     """
 
     click.echo("Python OSINT Recon Script/Tool For Enumerating Online Presence Of A Person From Username \n")
     click.echo("Enumerates 73 Online Platforms \n\n")
 
+    username = click.prompt("Username")
 
+    click.echo("\n\n")
 
-
-@main.command()
-@click.argument('username')
-def search(username):
-    
     rU = reconUser(username)
+
+
+
+
+
+
+#@main.command()
+#@click.argument('username')
+#def main(username):
+    
+#    rU = reconUser(username)
 
 
 class reconUser():
