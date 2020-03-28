@@ -1,3 +1,4 @@
+import os
 from pyfiglet import Figlet
 import click
 import requests
@@ -11,10 +12,8 @@ f = Figlet(
 __author__ = "vishnu_dileesh"
 
 click.echo(click.style(f.renderText('ReconUserPie'), bold=True, fg='cyan'))
-print('Author : ' + __author__)
-print('Message : Do No Evil \n \n')
-
-
+click.echo(click.style((f'Author : vishnu_dileesh'), bold=True, fg='cyan'))
+click.echo(click.style((f'Message : Do No Evil \n \n'), fg='cyan'))
 
 
 
@@ -26,7 +25,7 @@ print('Message : Do No Evil \n \n')
 
 def main(flag):
     """
-    Tool Outputs 3 Types Of Results
+    Tool Outputs 4 Types Of Results
 
     1) Success : Username is successfully found on the platform
 
@@ -34,13 +33,12 @@ def main(flag):
 
     3) Doubtful : Tool is not confident about the result, please do manual check
 
+    4) Error : Could be caused by the network being slow or the site being down
 
 
     python3 reconuser.py (Does all platforms search & outputs all the above result types)
 
     python3 -f ms reconuser.py (Does platforms searches excluding Doubtful cases)
-
-    python3 -f ss reconuser.py (Does platforms searches excluding Doubtful cases & outputs only Success results)
 
 
     """
@@ -53,16 +51,14 @@ def main(flag):
 
         click.echo("ReconUserPie running with flag min-search (excludes doubtful platforms) \n\n")
 
-    elif flag == 'ss':
-
-        click.echo("ReconUserPie running with flag success-search (excludes doubtful platforms & shows only Success results \n\n")
-
     username = click.prompt("Username")
 
 
     click.echo("\n\n")
 
     rU = reconUser(username, flag)
+
+    output_write(username)
 
 
 
@@ -74,30 +70,6 @@ class reconUser():
         for k, v in platforms.items():
 
             if flag == 'ms':
-
-                if v['doubt'] == True:
-
-                    continue
-
-                else:
-
-                    if v['up']:
-
-                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
-
-                        site = 'https://' + username + v['url']
-
-                        enumsearch(site, k, v, username, flag)
-
-                    else:
-
-                        click.echo(click.style((f"Recon: {k}"), fg="white", bold=True))
-
-                        site = v['url'] + username
-
-                        enumsearch(site, k, v, username, flag)
-
-            elif flag == 'ss':
 
                 if v['doubt'] == True:
 
@@ -142,6 +114,9 @@ class reconUser():
 
 
 
+success_list = []
+
+
 def enumsearch(site, k, v, username, flag):
     try:
 
@@ -162,6 +137,10 @@ def enumsearch(site, k, v, username, flag):
 
                 click.echo(click.style((f"{site}"), fg='white', bg='yellow', bold=True))
 
+                list_item = f"Success : {k} ::: {site}"
+
+                success_list.append(list_item)
+
 
         else:
 
@@ -178,6 +157,19 @@ def enumsearch(site, k, v, username, flag):
         click.echo(click.style((f"Error: {site}"), blink=True, bold=True, fg='red', bg='white'))
 
 
+def output_write(username):
+
+    filename = username + '_success_report.txt'
+
+    with open(filename, 'w') as f:
+
+        for item in success_list:
+
+            f.write("%s\n" %item)
+
+    click.echo(f"Success Result Report Written To File {filename}")
+
+    
 
 
 
